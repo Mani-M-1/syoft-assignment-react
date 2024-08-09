@@ -44,7 +44,6 @@ const Signup = () => {
 
     const handleOnSubmit = async (event) => {
         event.preventDefault();
-        console.log(form);
 
         try {
             const url = "https://syoft.dev/Api/user_registeration/api/user_registeration";
@@ -69,7 +68,6 @@ const Signup = () => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            console.log(data);
 
             navigate('/login');
         }

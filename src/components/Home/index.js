@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { useEffect, useState } from 'react';
 
@@ -5,16 +6,20 @@ import { useEffect, useState } from 'react';
 const Home = () => {
     const [userDetails, setUserDetails] = useState(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const userData = localStorage.getItem('userDetails');
         if (userData) {
             setUserDetails(JSON.parse(userData));
         }
+        else {
+            navigate('/login', {replace: true});
+        }
     }, []);
 
     return (
         <div className="home-page__main-container">
-            {console.log(userDetails)}
             <div className="home-page__main-header">
                 <h1>Welcome, {userDetails?.user_firstname}!</h1>
             </div>

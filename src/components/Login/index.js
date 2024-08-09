@@ -56,7 +56,6 @@ const Login = () => {
             const response = await fetch(url, options);
             const data = await response.json();
             
-            console.log(data);
 
             const userDetails = data.user_data[0];
 
