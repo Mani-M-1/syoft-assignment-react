@@ -97,3 +97,14 @@ input {
     color: red;
     margin: 5px 0;
 }
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .login-page__left-section {
+        display: none;
+    }
+}

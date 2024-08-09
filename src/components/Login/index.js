@@ -55,21 +55,31 @@ const Login = () => {
             
             const response = await fetch(url, options);
             const data = await response.json();
+
+            console.log(data);
             
-
-            const userDetails = data.user_data[0];
-
-            localStorage.setItem('userDetails', JSON.stringify(userDetails));
-
-
-            navigate('/');
+            if (response.ok && data.status) {
+                const userDetails = data.user_data[0];
+    
+                localStorage.setItem('userDetails', JSON.stringify(userDetails));
+    
+    
+                navigate('/');
+            }
+            else {
+                setBackendErr({showErr: true, errMsg: data.msg})
+            
+                setTimeout(() => {
+                    setBackendErr({showErr: false, errMsg: ""})
+                }, 2000)
+            }
         }
         catch(err) {
-            setBackendErr({showErr: true, errMsg: err.message})
+            setBackendErr({showErr: true, errMsg: err.msg})
             
             setTimeout(() => {
                 setBackendErr({showErr: false, errMsg: ""})
-            }, 3000)
+            }, 2000)
         }
 
     }
@@ -87,7 +97,7 @@ const Login = () => {
             <div className="login-page__right-section">
                 <form onSubmit={handleOnSubmit} className="login-page__form-container">
                     <h1>Sign In</h1>
-                    <p>Doesn't have an account? <Link to="/login" className='login-page__link-items'>Sign up</Link></p>
+                    <p>Doesn't have an account? <Link to="/signup" className='login-page__link-items'>Sign up</Link></p>
 
                     <label htmlFor='email'>Email address *</label>
                     <input type='email' name='email' value={form.email} onChange={handleOnChangeInput} />
@@ -100,7 +110,7 @@ const Login = () => {
                         </button>
                     </div>
 
-                    {backendErr.showErr && <p className='login-page__err-msg'>{backendErr.errMsg}</p>}
+                    {backendErr.showErr && <p className='login-page__err-msg'>*{backendErr.errMsg}</p>}
 
                     <button disabled={disableSubmitBtn} className={disableSubmitBtn ? 'login-page__submit-btn-disabled' : 'login-page__submit-btn'} type='submit'>
                         Login

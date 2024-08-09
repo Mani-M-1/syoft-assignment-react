@@ -68,15 +68,24 @@ const Signup = () => {
             const response = await fetch(url, options);
             const data = await response.json();
             
+            if (response.ok && data.success) {
+                navigate('/login');
+            }
+            else {
+                setBackendErr({showErr: true, errMsg: data.msg})
+            
+                setTimeout(() => {
+                    setBackendErr({showErr: false, errMsg: ""})
+                }, 2000)
+            }
 
-            navigate('/login');
         }
         catch(err) {
             setBackendErr({showErr: true, errMsg: err.message})
             
             setTimeout(() => {
                 setBackendErr({showErr: false, errMsg: ""})
-            }, 3000)
+            }, 2000)
         }
 
     }
@@ -142,7 +151,7 @@ const Signup = () => {
                         </p>
                     </div>
 
-                    {backendErr.showErr && <p className='signup-page__err-msg'>{backendErr.errMsg}</p>}
+                    {backendErr.showErr && <p className='signup-page__err-msg'>*{backendErr.errMsg}</p>}
 
                     <button disabled={disableSubmitBtn} className={disableSubmitBtn ? 'signup-page__submit-btn-disabled' : 'signup-page__submit-btn'} type='submit'>
                         Create your free account
